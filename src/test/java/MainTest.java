@@ -20,41 +20,21 @@ public class MainTest {
     private Config config;
     private ConfigManager manager;
 
-    @Test
-    public void aaa_parseRessoureConfig() {
+
+    private void getConfig() {
         if (manager == null) {
             manager = new ConfigManager();
+            manager.copyRessource("C:\\Users\\N.Hartmann\\workspace\\ymlconfig\\config.conf", Config.class, "test.yml");
         }
-        manager.copyRessource("C:\\Users\\N.Hartmann\\workspace\\ymlconfig\\config.conf", Config.class, "test.yml");
-        config = manager.getConfig("C:\\Users\\N.Hartmann\\workspace\\ymlconfig\\config.conf");
-        assertNotNull("should not be null", config);
+        if (config == null) {
+            config = manager.getConfig("C:\\Users\\N.Hartmann\\workspace\\ymlconfig\\config.conf");
+        }
     }
 
     @Test
-    @Ignore
-    public void aab_testKeyComments() {
-        System.out.println("---Start Printing---");
-        for (String section: config.getSections().keySet()) {
-            HashMap<String, Object> keyvaluepairs = config.getKeyValuePairs(section);
-            for (String key : keyvaluepairs.keySet()) {
-                System.out.println("S: "+section+"  K: "+key+"  V: "+keyvaluepairs.get(key));
-                if (config.getCommentbyKey(key) != null) {
-                    System.out.println("C: "+config.getCommentbyKey(key));
-                }
-            }
-        }
-    }
-    @Test
-    @Ignore
-    public void aac_testHeader() {
-        System.out.println("----header----");
-        String header = config.printHeader();
-        assertNotSame(0, header.length());
-        System.out.println(header);
-    }
-    @Test
-    @Ignore
-    public void aad_save() {
-        manager.saveToFile("C:\\Users\\N.Hartmann\\workspace\\ymlconfig\\config.conf");
+    public void aaa_parseRessoureConfig() {
+        getConfig();
+        assertNotNull("should not be null", manager);
+        assertNotNull("should not be null", config);
     }
 }
