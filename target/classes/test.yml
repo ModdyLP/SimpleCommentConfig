@@ -13,7 +13,7 @@ tada22: 56.8
 
 tada23: 23
 
-2bSection
+2bSection:
    tada2: 'tadavalue2'
    tada3: false
    #Toller Wert
@@ -21,8 +21,14 @@ tada23: 23
    tada5: 'adavalue5'
 
 #Lala Section
-a2Section
+a2Section:
    tada6: 'Anything'
    listtest:
       - 'Test'
       - 'zwei'
+
+testnested:
+   nocheine: 5623
+   testnestedsection:
+      lalala: 56112
+      valuenested: 'keynested'

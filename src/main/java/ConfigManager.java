@@ -29,6 +29,7 @@ public class ConfigManager {
             }
             Config config = new Config(configfile);
             configs.put(path, config);
+            config.reload();
             return config;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -42,7 +43,7 @@ public class ConfigManager {
                 throw new Exception("No File found in Ressources");
             }
             Config config = new Config(configfile);
-            config.parseConfigFile();
+            config.reload();
 
             Config finalconfiginst = getConfig(path);
             finalconfiginst.parseString(config.returnConfigString());

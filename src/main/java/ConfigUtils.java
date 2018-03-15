@@ -8,4 +8,18 @@ public class ConfigUtils {
             builder.append("\n");
         }
     }
+    public static String createFiller(int filler) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i <= filler; i++) {
+            builder.append(" ");
+        }
+        return builder.toString();
+    }
+    public static String createLine(int filler) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i <= filler; i++) {
+            builder.append("_");
+        }
+        return builder.toString();
+    }
 }

@@ -24,8 +24,12 @@ public class Serilizer {
             return "\'"+value.toString()+"\'";
         } else if (value instanceof Double) {
             return Double.toString((Double)value);
+        }else if (value instanceof Integer) {
+            return Double.toString((Integer)value);
         } else if (value instanceof Boolean) {
             return Boolean.toString((Boolean)value);
+        } else if (value instanceof ArrayList) {
+            return convertObjecttoString(((ArrayList) value).toArray(), indent);
         } else if (value instanceof Object[]) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("\n");
