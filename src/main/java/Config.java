@@ -1,6 +1,5 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -84,12 +83,14 @@ public class Config {
             ex.printStackTrace();
         }
     }
+
     public void reload() {
         if (configfile == null || !configfile.exists()) {
             return;
         }
         parseConfigFile();
     }
+
     private void newlines(int count, StringBuilder builder) {
         for (int i = 0; i < count; i++) {
             builder.append(NEWLN);
@@ -118,11 +119,12 @@ public class Config {
         }
         return builder.toString().replaceAll("\n\n\n", "\n\n");
     }
+
     private void buildSection(StringBuilder builder, String section, String indent, String parent) {
         if (!section.equals(MAINSECTIONID)) {
             String realsection = section;
             if (parent.length() > 0) {
-                realsection = parent+"."+section;
+                realsection = parent + "." + section;
             }
             if (!section.contains(".")) {
                 ConfigUtils.appendNewLine(builder);
@@ -135,7 +137,7 @@ public class Config {
                 for (String key : sections.get(realsection).keySet()) {
                     String realsectionkey = key;
                     if (realsection.length() > 0) {
-                        realsectionkey = realsection+"."+key;
+                        realsectionkey = realsection + "." + key;
                     }
                     if (getCommentbyKey(realsectionkey) != null) {
                         newlines(1, builder);
@@ -157,6 +159,7 @@ public class Config {
             }
         }
     }
+
     private void checkforchildrenSection(StringBuilder builder, String section, String indent) {
         for (String inner : sections.keySet()) {
             if (inner.contains(".")) {
@@ -248,28 +251,28 @@ public class Config {
         }
     }
 
-    public String printHeader() {
+    private String printHeader() {
         int longestline = 0;
         for (String headerline : header) {
             if (headerline.length() > longestline) {
                 longestline = headerline.length();
             }
         }
-        longestline = longestline+6;
+        longestline = longestline + 6;
         StringBuilder sb = new StringBuilder();
         int headerline = 0;
         if (longestline % 2 > 0) {
             headerline = longestline;
         } else {
-           headerline = longestline+1;
+            headerline = longestline + 1;
         }
         sb.append("#").append(ConfigUtils.createLine(headerline)).append("#").append("\n");
         for (String line : header) {
             int linelenght = line.length();
-            String left = ConfigUtils.createFiller((longestline-linelenght)/2);
+            String left = ConfigUtils.createFiller((longestline - linelenght) / 2);
             String right = "";
             if (linelenght % 2 > 0) {
-                right = ConfigUtils.createFiller(((longestline - linelenght) / 2)-1);
+                right = ConfigUtils.createFiller(((longestline - linelenght) / 2) - 1);
             } else {
                 right = ConfigUtils.createFiller(((longestline - linelenght) / 2));
             }
@@ -293,16 +296,20 @@ public class Config {
             sections.put(name, map);
         }
     }
+
     private void addComment(String name, String comment) {
-        comments.put(name, "#"+comment);
+        comments.put(name, "#" + comment);
     }
+
     public void addHeader(String[] header) {
         configureHeader(header);
     }
+
     public void setHeader(String[] header) {
         this.header.clear();
         configureHeader(header);
     }
+
     private void configureHeader(String[] header) {
         for (int i = 0; i < header.length; i++) {
             if (!header[i].contains("___")) {
@@ -322,6 +329,7 @@ public class Config {
         }
         return value;
     }
+
     public Object getOrDef(String optionpath, Object value, String comment) {
         if (get(optionpath) == null) {
             set(optionpath, value);
@@ -348,7 +356,7 @@ public class Config {
                 orginalpath.append(".");
             }
             orginalpath.append(options[0]);
-            optionpath = optionpath.replace(options[0]+".", "");
+            optionpath = optionpath.replace(options[0] + ".", "");
         }
         if (sections.get(orginalpath.toString()) != null) {
             return sections.get(orginalpath.toString()).get(key);
@@ -377,12 +385,13 @@ public class Config {
             }
             orginalpath.append(options[0]);
             createSection(orginalpath.toString());
-            optionpath = optionpath.replace(options[0]+".", "");
+            optionpath = optionpath.replace(options[0] + ".", "");
         }
         if (sections.get(orginalpath.toString()) != null) {
             sections.get(orginalpath.toString()).put(key, value);
         }
     }
+
     public boolean containsKey(String path) {
         String key;
         String[] option = path.split("\\.");
@@ -392,10 +401,10 @@ public class Config {
             key = option[0];
         }
         boolean found = false;
-        if (sections.containsKey(path) || sections.containsKey(path.replace("."+key, ""))) {
+        if (sections.containsKey(path) || sections.containsKey(path.replace("." + key, ""))) {
             found = true;
         }
-        for (String section: sections.keySet()) {
+        for (String section : sections.keySet()) {
             if (section.equals(path) || section.equals(key)) {
                 found = true;
             }
